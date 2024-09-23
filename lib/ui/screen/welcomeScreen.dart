@@ -1,144 +1,106 @@
+import 'package:credixo/services/userServices.dart';
+import 'package:credixo/ui/screen/dashboard/dashboardScreen.dart';
 import 'package:credixo/ui/screen/startScreen/onboardingScreen.dart';
-import 'package:credixo/ui/widgets/circularAnimation.dart';
+import 'package:credixo/routes/AuthPage.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:lottie/lottie.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat();
-
-    // Call the navigation function after 3 seconds
     Future.delayed(const Duration(seconds: 3), _navigateToNextScreen);
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   Future<void> _navigateToNextScreen() async {
-    // final userService = UserServices();
-    //
-    // bool onboardingCompleted = await userService.getOnboardingCompleted();
-    // bool loggedIn = await userService.getLoggedIn();
+    final userService = UserServices();
 
-    // if (!onboardingCompleted) {
+    bool onboardingCompleted = await userService.getOnboardingCompleted();
+    bool loggedIn = await userService.getLoggedIn();
+
+    if (!mounted) return;
+
+    if (!onboardingCompleted) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Onboarding1()),
       );
-    // } else if (!loggedIn) {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const Loginscreen()),
-    //   );
-    // } else {
-    //   Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => const Dashboardscreen()),
-    //   );
-    // }
+    } else if (!loggedIn) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Authpage()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardScreen()),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(flex: 1),
-            const Text(
-              'YAAR LOAN',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+      backgroundColor: Colors.grey[700],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.black87,
+                  Colors.black54,
+                  Colors.grey[600]!,
+                ],
               ),
             ),
-            const Spacer(),
-            const Text(
-              'Welcome to Yaar Loan App',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+
+              // const Spacer(), // Remove or replace this spacer if not needed
+              // Add specific spacing if needed
+              Image.asset("assets/images/Credixo.png"),
+              const SizedBox(height: 10),
+              const Text(
+                "Welcome to Credixo Loan App",
+                style: TextStyle(
+                    fontFamily: "Cairo", fontSize: 22, color: Colors.white),
               ),
-            ),
-            const SizedBox(height: 5),
-            const Text(
-              'Credit Pay Your Friends, Colleagues',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w300,
-                color: Colors.grey,
+              const Text(
+                "Credit pay your Friends, Colleagues",
+                style: TextStyle(
+                    fontFamily: "Cairo", fontSize: 16, color: Colors.white),
               ),
-            ),
-            const Spacer(),
-            AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                return Text.rich(
-                  TextSpan(
-                    children: _buildAnimatedTextSpans(_controller.value),
-                  ),
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                  ),
-                );
-              },
-            ),
-            const Spacer(),
-            // Replace the red circle with the custom loading indicator
-            const ExpandingCircleIndicator(),
-            const Spacer(flex: 2),
-            const Text(
-              'App Version 1.0',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w300,
-                color: Colors.grey,
+              const SizedBox(height: 10),
+              // Add a smaller gap if needed
+              Lottie.asset('assets/lottie/loading.json'),
+              // const SizedBox(height: 20),
+              // Add specific spacing instead of Spacer
+              Align(
+                alignment: Alignment.bottomRight,
+                child: const Text(
+                  "App Version 1.0\t\t\t",
+                  style: TextStyle(
+                      fontFamily: "Cairo", fontSize: 14, color: Colors.white),
+                ),
               ),
-            ),
-            const Spacer(),
-          ],
-        ),
+              const SizedBox(height: 20),
+            ],
+          )
+        ],
       ),
     );
-  }
-
-  List<TextSpan> _buildAnimatedTextSpans(double animationValue) {
-    const String text = 'Yaara Loan';
-    List<TextSpan> spans = [];
-
-    for (int i = 0; i < text.length; i++) {
-      double offset = sin(animationValue * 2 * pi + i / 2);
-      spans.add(
-        TextSpan(
-          text: text[i],
-          style: TextStyle(
-            color: i.isOdd ? Colors.grey : Colors.orange,
-            fontSize: 36 + 4 * offset,
-          ),
-        ),
-      );
-    }
-    return spans;
   }
 }

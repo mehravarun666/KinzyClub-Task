@@ -1,18 +1,21 @@
+import 'package:credixo/routes/AuthPage.dart';
+import 'package:credixo/services/userServices.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 final List<OnBoard> demoData = [
   OnBoard(
-    image: 'assets/images/onboardingscreen1.png',
+    image: 'assets/lottie/onboard1.json',
     title: 'Welcome to Friendly Credit App',
     description: 'Credit pay your friends, colleagues',
   ),
   OnBoard(
-    image: 'assets/images/onboardingscreen2.png',
+    image: 'assets/lottie/onboard2.json',
     title: 'Perfect Pair for Everyone',
     description: 'Payment Received',
   ),
   OnBoard(
-    image: 'assets/images/onboardingscreen3.png',
+    image: 'assets/lottie/onboard3.json',
     title: 'Find all New Favourites',
     description: "Set Reminders and receive all payments, Generate EMI's and Share to others to Earn!",
   ),
@@ -26,8 +29,10 @@ class Onboarding1 extends StatefulWidget {
 }
 
 class _Onboarding1State extends State<Onboarding1> {
+  final userService = UserServices();
   late PageController _pageController;
   int _pageIndex = 0;
+  bool _isLastPage = false;
 
   @override
   void initState() {
@@ -36,89 +41,130 @@ class _Onboarding1State extends State<Onboarding1> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose(); // Dispose to avoid memory leaks
+    super.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _pageIndex = index;
+      _isLastPage = index == demoData.length - 1;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const SizedBox(width: 20),
-            const Text("YAAR LOAN"),
-            const Spacer(),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _pageIndex = 2;
-              });
-            },
-            child: const Text("SKIP"),
-          ),
-        ],
-      ),
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
-              child: PageView.builder(
-                onPageChanged: (index) {
-                  setState(() {
-                    _pageIndex = index;
-                  });
-                },
-                itemCount: demoData.length,
-                controller: _pageController,
-                itemBuilder: (context, index) => OnBoardContent(
-                  title: demoData[index].title,
-                  description: demoData[index].description,
-                  image: demoData[index].image,
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black87,
+                    Colors.black54,
+                    Colors.grey[600]!,
+                  ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ...List.generate(
-                    demoData.length,
-                        (index) => Padding(
-                      padding: const EdgeInsets.only(right: 4),
-                      child: DotIndicator(
-                        isActive: index == _pageIndex,
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/Credixo.png",
+                      scale: 10,
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: TextButton(
+                        onPressed: () async{
+                          if (_isLastPage) {
+                            await userService.setOnboardingCompleted(true);
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>  const Authpage())); // Navigate to home or next screen
+                          } else {
+                            setState(() {
+                              _pageIndex = demoData.length - 1; // Jump to last page
+                              _pageController.animateToPage(_pageIndex,
+                                  duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                            });
+                          }
+                        },
+                        child: Text(_isLastPage ? "SIGN UP" : "SKIP",style: TextStyle(color: Color( 0xFFFFD700)),),
                       ),
                     ),
+                  ],
+                ),
+                Expanded(
+                  child: PageView.builder(
+                    onPageChanged: _onPageChanged,
+                    itemCount: demoData.length,
+                    controller: _pageController,
+                    itemBuilder: (context, index) => OnBoardContent(
+                      title: demoData[index].title,
+                      description: demoData[index].description,
+                      image: demoData[index].image,
+                    ),
                   ),
-                ],
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // Background color
-                foregroundColor: Colors.white, // Text color
-                minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 40), // Button width and height
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12), // Rounded corners
                 ),
-                elevation: 5,
-              ),
-              onPressed: () {
-                // Your onPressed code here
-              },
-              child: const Text("START CREDIT"),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account?"),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text("Sign In"),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ...List.generate(
+                          demoData.length,
+                              (index) => Padding(
+                            padding: const EdgeInsets.only(right: 4),
+                            child: DotIndicator(
+                              isActive: index == _pageIndex,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color( 0xFFFFE280),
+                    foregroundColor: Colors.grey[800],// Text color
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 40), // Button width and height
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                    ),
+                    elevation: 5,
+                  ),
+                  onPressed: () async {
+                    await userService.setOnboardingCompleted(true);
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Authpage())); // Navigate to home or next screen
+                  },
+                  child: Text("START CREDIT"),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have an account?",style: TextStyle(color: Colors.white)),
+                    TextButton(
+                      onPressed: () async{
+                        await userService.setOnboardingCompleted(true);
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Authpage())); // Navigate to home or next screen
+                      },
+                      child: const Text("Sign In",style: TextStyle(color: Color( 0xFFFFD700))),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
               ],
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -140,15 +186,13 @@ class OnBoardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
           flex: 5,
-          child: Image.asset(
-            image,
-            fit: BoxFit.contain,
-          ),
+          child: Lottie.asset(image),
         ),
         const SizedBox(height: 20),
         Expanded(
@@ -159,9 +203,10 @@ class OnBoardContent extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: width * 0.06, // Responsive font size
+                    fontFamily: "Cairo",
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -169,9 +214,10 @@ class OnBoardContent extends StatelessWidget {
                 Text(
                   description,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: width * 0.04, // Responsive font size
+                    fontFamily: "Cairo",
                   ),
                 ),
               ],

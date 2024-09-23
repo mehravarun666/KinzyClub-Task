@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "43169819376",
+    "project_id": "credixo-v1",
+    "storage_bucket": "credixo-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43169819376:android:6f2b15b532be68112f7035",
+        "android_client_info": {
+          "package_name": "com.example.credixo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "43169819376-hd1uq5jh8v43gg2aa6d9glom79nknhq0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.credixo",
+            "certificate_hash": "18d73ec81998812f96e0d7653e081b9dff62061d"
+          }
+        },
+        {
+          "client_id": "43169819376-9lhebgfqgldte39fmd7m5cbdnhtt9353.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaNmzieuJbH2Cu6PiHcRcp-3aKfAmooAQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "43169819376-9lhebgfqgldte39fmd7m5cbdnhtt9353.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "43169819376-ftofdt0533bkmdpn657b5dkqt4bdig3v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.credixo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
