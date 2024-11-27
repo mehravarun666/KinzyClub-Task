@@ -2,7 +2,7 @@
 
 Plan IT - Create, Update and Manage Tasks
 
-##List of Implemented Features
+## List of Implemented Features
 
 User Authentication: Sign up, log in, and log out using Firebase Authentication.
 Task Management: Create, update, delete, and view tasks.
@@ -13,7 +13,7 @@ Real-time Updates: Integrated with Firestore for real-time task and board update
 Responsive Design: Works seamlessly on various screen sizes.
 Drawer Navigation: Access user profile, settings, and sign-out functionality.
 
-##Assumptions or Design Decisions
+## Assumptions or Design Decisions
 
 Firebase as Backend: The app uses Firebase for authentication and Firestore for real-time database management.
 Task-Centric Design: The primary focus is on task creation and management.
@@ -24,7 +24,7 @@ Default Features:
 
 Known Limitations or Bugs
 
-##Offline Mode:
+## Offline Mode:
 Limited offline functionality; requires an active internet connection for most features.
 Board Color Picker: Does not validate certain color formats, causing potential rendering issues.
 Performance on Large Data: Performance may degrade with a very large number of tasks or boards due to Firestore query limitations.
