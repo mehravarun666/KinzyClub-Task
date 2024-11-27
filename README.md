@@ -1,6 +1,6 @@
-# credixo
+# planit
 
-Credixo App - Transaction with your known ones
+Plan IT - Create, Update and Manage Tasks
 
 ## Getting Started
 
