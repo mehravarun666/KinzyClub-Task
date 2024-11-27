@@ -10,6 +10,7 @@ class DashboardProvider extends ChangeNotifier {
   String userPhone = '';
   String selectedBorrowOption = 'BORROW';
   String selectedLenderOption = 'LENDER';
+  final User? user = FirebaseAuth.instance.currentUser;
 
   final List<String> borrowOptions = ['BORROW', 'Option 1', 'Option 2'];
   final List<String> lenderOptions = ['LENDER', 'Option 3', 'Option 4'];
@@ -36,5 +37,17 @@ class DashboardProvider extends ChangeNotifier {
   void setLenderOption(String newOption) {
     selectedLenderOption = newOption;
     notifyListeners();
+  }
+
+  Stream<QuerySnapshot> getBoardsStream() {
+    if (user == null) {
+      return Stream.empty();
+    }
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('boards')
+        .orderBy('createdAt', descending: true)
+        .snapshots();
   }
 }

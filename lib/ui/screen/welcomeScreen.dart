@@ -57,9 +57,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black87,
-                  Colors.black54,
-                  Colors.grey[600]!,
+                  Colors.white54,
+                  Colors.white60,
+                  Colors.white70,
                 ],
               ),
             ),
@@ -68,18 +68,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               // const Spacer(), // Remove or replace this spacer if not needed
               // Add specific spacing if needed
               Image.asset("assets/images/Credixo.png"),
               const SizedBox(height: 10),
               const Text(
-                "Welcome to Credixo Loan App",
+                "Welcome to Plan IT",
                 style: TextStyle(
                     fontFamily: "Cairo", fontSize: 22, color: Colors.white),
               ),
               const Text(
-                "Credit pay your Friends, Colleagues",
+                "Create, Update and Manage Tasks",
                 style: TextStyle(
                     fontFamily: "Cairo", fontSize: 16, color: Colors.white),
               ),
@@ -88,9 +87,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Lottie.asset('assets/lottie/loading.json'),
               // const SizedBox(height: 20),
               // Add specific spacing instead of Spacer
-              Align(
+              const Align(
                 alignment: Alignment.bottomRight,
-                child: const Text(
+                child: Text(
                   "App Version 1.0\t\t\t",
                   style: TextStyle(
                       fontFamily: "Cairo", fontSize: 14, color: Colors.white),

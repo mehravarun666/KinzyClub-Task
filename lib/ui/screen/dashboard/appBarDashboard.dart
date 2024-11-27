@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DashboardAppBar extends StatelessWidget {
+  const DashboardAppBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userName = Provider.of<DashboardProvider>(context).userName;
@@ -12,7 +14,6 @@ class DashboardAppBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
         SizedBox(
           height: 40,
           width: 40,
@@ -42,15 +43,21 @@ class DashboardAppBar extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 50,),
+        const SizedBox(
+          width: 50,
+        ),
         Expanded(
           child: Text(
             'WELCOME BACK! ${userName.toUpperCase()}',
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white),
+            style: const TextStyle(
+                fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white),
           ),
         ),
         IconButton(
-          icon: const Icon(Icons.notifications_none,color: Colors.white,),
+          icon: const Icon(
+            Icons.notifications_none,
+            color: Colors.white,
+          ),
           onPressed: () {},
         ),
       ],

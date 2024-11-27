@@ -28,7 +28,6 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen> {
             const SizedBox(width: 20),
             Image.asset(
               "assets/images/Credixo.png",
-              scale: 1.5,
             ),
             const Spacer(),
           ],
@@ -44,38 +43,38 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 40), // Replaced Spacer with fixed height
-              Align(
+              const SizedBox(height: 40), // Replaced Spacer with fixed height
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Forgot Password",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
                 ),
               ),
-              SizedBox(height: 40), // Replaced Spacer with fixed height
+              const SizedBox(height: 40), // Replaced Spacer with fixed height
 
               CustomTextField(
                 controller: textController,
                 labelText: 'Email Address/Contact Number',
                 validator: (email) =>
-                email != null && !EmailValidator.validate(email)
-                    ? 'Enter a valid email or Mobile number'
-                    : null,
+                    email != null && !EmailValidator.validate(email)
+                        ? 'Enter a valid email or Mobile number'
+                        : null,
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.brown,
                   foregroundColor: Colors.white,
                   minimumSize:
-                  Size(MediaQuery.of(context).size.width * 0.95, 55),
+                      Size(MediaQuery.of(context).size.width * 0.95, 55),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 5,
                 ),
                 onPressed: resetPasword,
-                child: Text(
+                child: const Text(
                   "Reset Password",
                   style: TextStyle(fontSize: 20),
                 ),
@@ -91,15 +90,14 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen> {
     showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => Center(
-          child: CircularProgressIndicator(),
-        ));
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
     try {
-      if(EmailValidator.validate(textController.text)){
+      if (EmailValidator.validate(textController.text)) {
         await _auth.sendPasswordResetEmail(email: textController.text.trim());
         navigatorKey.currentState!.popUntil((route) => route.isFirst);
-      }
-      else if(textController.text.length == 10){
+      } else if (textController.text.length == 10) {
         await _auth.verifyPhoneNumber(
           phoneNumber: textController.text,
           verificationCompleted: (credentials) async {
@@ -115,7 +113,7 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen> {
             this.verificationId = verificationId;
           },
         );
-      }else{
+      } else {
         print("Enter a valid email or phone number");
       }
     } on FirebaseAuthException catch (e) {
@@ -124,8 +122,10 @@ class _ForgotpasswordscreenState extends State<Forgotpasswordscreen> {
     }
   }
 
-  Future<bool> verifyOTP(String otp) async{
-    var credentials = await _auth.signInWithCredential(PhoneAuthProvider.credential(verificationId: this.verificationId, smsCode: otp));
-    return credentials.user != null? true:false;
+  Future<bool> verifyOTP(String otp) async {
+    var credentials = await _auth.signInWithCredential(
+        PhoneAuthProvider.credential(
+            verificationId: verificationId, smsCode: otp));
+    return credentials.user != null ? true : false;
   }
 }

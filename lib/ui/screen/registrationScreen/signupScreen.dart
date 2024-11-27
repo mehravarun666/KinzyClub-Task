@@ -11,8 +11,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class Signupscreen extends StatefulWidget {
   final VoidCallback onClickedSignIn;
 
-  const Signupscreen({Key? key, required this.onClickedSignIn})
-      : super(key: key);
+  const Signupscreen({super.key, required this.onClickedSignIn});
 
   @override
   State<Signupscreen> createState() => _SignupscreenState();
@@ -22,10 +21,9 @@ class _SignupscreenState extends State<Signupscreen> {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final nameController = TextEditingController();
-  final aadharNumberController = TextEditingController();
   final passwordController = TextEditingController();
   final phoneNumberController = TextEditingController();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void dispose() {
@@ -46,9 +44,9 @@ class _SignupscreenState extends State<Signupscreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black87,
-                  Colors.black54,
-                  Colors.grey[600]!,
+                  Colors.white54,
+                  Colors.white60,
+                  Colors.white70,
                 ],
               ),
             ),
@@ -57,101 +55,115 @@ class _SignupscreenState extends State<Signupscreen> {
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
               child: Column(
-                mainAxisSize: MainAxisSize.min,  // Let the column take the minimum height required by its children
+                mainAxisSize: MainAxisSize
+                    .min, // Let the column take the minimum height required by its children
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                      height: 50),
                   Image.asset(
                     "assets/images/Credixo.png",
-                    scale: 10,
                   ),
-                  SizedBox(height: 20),  // Replace Spacer with a fixed size
-                  Align(
+                  const SizedBox(
+                      height: 20), // Replace Spacer with a fixed size
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Hey,",
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600,color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
                     ),
                   ),
-                  Align(
+                  const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "Sign Up",
-                      style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600,color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white),
                     ),
                   ),
-                  SizedBox(height: 20),  // Replace Spacer with a fixed size
-                  CustomTextField(
-                    controller: aadharNumberController,
-                    labelText: 'Aadhar Number',
-                  ),
-                  SizedBox(height: 10),
+                  const SizedBox(
+                      height: 20),
                   CustomTextField(
                     controller: nameController,
                     labelText: 'Name',
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     controller: emailController,
                     labelText: 'Email',
                     validator: (email) =>
-                    email != null && !EmailValidator.validate(email) ? 'Enter a valid email' : null,
+                        email != null && !EmailValidator.validate(email)
+                            ? 'Enter a valid email'
+                            : null,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     controller: phoneNumberController,
                     labelText: 'Mobile Number',
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     controller: passwordController,
                     labelText: 'Password',
                     isPassword: true,
-                    validator: (value) => value != null && value.length < 6 ? 'Enter minimum 6 Characters' : null,
+                    validator: (value) => value != null && value.length < 6
+                        ? 'Enter minimum 6 Characters'
+                        : null,
                   ),
-                  SizedBox(height: 20),  // Replace Spacer with a fixed size
+                  const SizedBox(
+                      height: 20), // Replace Spacer with a fixed size
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color( 0xFFFFE280),
+                      backgroundColor: const Color(0xFFFFE280),
                       foregroundColor: Colors.grey[800],
-                      minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 55),
+                      minimumSize:
+                          Size(MediaQuery.of(context).size.width * 0.95, 55),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 5,
                     ),
                     onPressed: signUp,
-                    child: Text(
+                    child: const Text(
                       "Sign Up",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  SizedBox(height: 20),  // Replace Spacer with a fixed size
-                  Text(
+                  const SizedBox(
+                      height: 20), // Replace Spacer with a fixed size
+                  const Text(
                     "---------------Or sign in with---------------",
-                    style: TextStyle(fontSize: 15,color: Colors.white),
+                    style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      buildSocialMediaIcon(signInWithGoogle,"assets/icons/google.png"),
-                      SizedBox(width: 10),
-                      buildSocialMediaIcon((){},"assets/icons/facebook.png"),
-                      SizedBox(width: 10),
-                      buildSocialMediaIcon((){},"assets/icons/microsoft.png"),
+                      buildSocialMediaIcon(
+                          signInWithGoogle, "assets/icons/google.png"),
+                      const SizedBox(width: 10),
+                      buildSocialMediaIcon(() {}, "assets/icons/facebook.png"),
+                      const SizedBox(width: 10),
+                      buildSocialMediaIcon(() {}, "assets/icons/microsoft.png"),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   RichText(
                     text: TextSpan(
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       text: 'Already Have an Account?  ',
                       children: [
                         TextSpan(
-                          recognizer: TapGestureRecognizer()..onTap = widget.onClickedSignIn,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = widget.onClickedSignIn,
                           text: 'Log In',
-                          style: TextStyle(
+                          style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: Colors.white,
                           ),
@@ -177,7 +189,8 @@ class _SignupscreenState extends State<Signupscreen> {
         return;
       }
 
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -185,13 +198,17 @@ class _SignupscreenState extends State<Signupscreen> {
       );
 
       // Sign in with Google and get the user
-      UserCredential userCredential = await _auth.signInWithCredential(credential);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
       User? user = userCredential.user;
 
       // Check if it's a new user
       if (userCredential.additionalUserInfo!.isNewUser) {
         // Save additional user information in Firestore
-        await FirebaseFirestore.instance.collection('users').doc(user!.uid).set({
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .set({
           'name': user.displayName,
           'email': user.email,
           'phone': user.phoneNumber ?? '',
@@ -200,26 +217,23 @@ class _SignupscreenState extends State<Signupscreen> {
 
       // Navigate to the Dashboard
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const DashboardScreen())
-      );
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const DashboardScreen()));
     } catch (e) {
       print("Exception caugth:- $e}");
       // Handle error
     }
   }
 
-
-  Widget buildSocialMediaIcon(OnTap(),String imagePath) {
+  Widget buildSocialMediaIcon(Function() OnTap, String imagePath) {
     return InkWell(
       onTap: OnTap,
       child: Container(
         height: 45,
         width: 45,
-        padding: EdgeInsets.all(8), // Add padding to the container
+        padding: const EdgeInsets.all(8), // Add padding to the container
         decoration: BoxDecoration(
-          color:  Colors.grey[800],
+          color: Colors.grey[800],
           border: Border.all(color: Colors.white), // Add border
           borderRadius: BorderRadius.circular(8), // Optional: Add border radius
         ),
@@ -228,19 +242,19 @@ class _SignupscreenState extends State<Signupscreen> {
     );
   }
 
-
   Future signUp() async {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Center(
+      builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );
 
     try {
       // Create user with email and password
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
@@ -249,11 +263,14 @@ class _SignupscreenState extends State<Signupscreen> {
       await userCredential.user!.updateDisplayName(nameController.text.trim());
 
       // Save additional user information in Firestore
-      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
         'name': nameController.text.trim(),
         'email': emailController.text.trim(),
         'phone': phoneNumberController.text.trim(),
-        'aadharNumber': aadharNumberController.text.trim(),
+        'aadharNumber': ""
       });
 
       // Navigate to the first route

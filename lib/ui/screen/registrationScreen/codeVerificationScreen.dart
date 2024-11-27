@@ -21,88 +21,110 @@ class _CodeverificationscreenState extends State<Codeverificationscreen> {
     // TODO: implement initState
     super.initState();
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    if(!isEmailVerified){
+    if (!isEmailVerified) {
       sendVerificationEmail();
 
-      timer = Timer.periodic(Duration(seconds: 3), (_)=> checkEmailVerified());
+      timer = Timer.periodic(
+          const Duration(seconds: 3), (_) => checkEmailVerified());
     }
   }
 
   @override
-  void dispose(){
+  void dispose() {
     timer?.cancel();
     super.dispose();
   }
 
-  checkEmailVerified() async{
+  checkEmailVerified() async {
     await FirebaseAuth.instance.currentUser!.reload();
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     });
 
-    if(isEmailVerified) timer?.cancel();
+    if (isEmailVerified) timer?.cancel();
   }
-  Future sendVerificationEmail()async{
+
+  Future sendVerificationEmail() async {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
 
       setState(() => canResedEmail = false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResedEmail = true);
     } on Exception catch (e) {
       print(e);
       // TODO
     }
   }
+
   @override
-  Widget build(BuildContext context) => isEmailVerified?DashboardScreen():Scaffold(
-    backgroundColor: const Color(0xFFF8EAC9),
-    appBar: AppBar(
-      backgroundColor: const Color(0xFFF8EAC9),
-      title: Row(
-        children: [
-          const SizedBox(width: 20),
-          Image.asset(
-            "assets/images/Credixo.png",
-            scale: 1.5,
-          ),
-          const Spacer(),
-        ],
-      ),
-    ),
-    body:SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("A verification code has been send to your email"),
-            SizedBox(height: 20,),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.brown,
-                foregroundColor: Colors.white,
-                minimumSize:
-                Size(MediaQuery.of(context).size.width * 0.95, 55),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+  Widget build(BuildContext context) => isEmailVerified
+      ? const DashboardScreen()
+      : Scaffold(
+          body: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white54,
+                      Colors.white60,
+                      Colors.white70,
+                    ],
+                  ),
                 ),
-                elevation: 5,
               ),
-              onPressed: canResedEmail?sendVerificationEmail:null,
-              child: Text(
-                "Resend Email",
-                style: TextStyle(fontSize: 20),
+              SingleChildScrollView(
+                child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            const SizedBox(width: 20),
+                            Image.asset(
+                              "assets/images/Credixo.png",
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                        const Text(
+                            "A verification code has been send to your email",style: TextStyle(color: Colors.white
+                        ),),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white24,
+                            foregroundColor: Colors.white,
+                            minimumSize:
+                                Size(MediaQuery.of(context).size.width * 0.95, 55),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 5,
+                          ),
+                          onPressed: canResedEmail ? sendVerificationEmail : null,
+                          child: const Text(
+                            "Resend Email",
+                            style: TextStyle(fontSize: 20,color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextButton(
+                            onPressed: () => FirebaseAuth.instance.signOut,
+                            child: const Text("Cancel"))
+                      ],
+                    )),
               ),
-            ),
-            SizedBox(height: 10,),
-            TextButton(onPressed: ()=>FirebaseAuth.instance.signOut, child: Text("Cancel"))
-          ],
-        )
-      ),
-    ) ,
-  );
-
-
+            ],
+          ),
+        );
 }

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -14,7 +16,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final userName = Provider.of<DashboardProvider>(context).userName;
     final userEmail = Provider.of<DashboardProvider>(context).userEmail;
     return Scaffold(
-
       body: Stack(
         children: [
           Container(
@@ -23,9 +24,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black87,
-                  Colors.black54,
-                  Colors.grey[600]!,
+                  Colors.white54,
+                  Colors.white60,
+                  Colors.white70,
                 ],
               ),
             ),
@@ -33,24 +34,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.arrow_back,color: Colors.white,),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
                       onPressed: () {
                         Navigator.pop(context);
                       },
                     ),
-                    Text('Profile',style: TextStyle(fontSize: 20,color: Colors.white),),
+                    const Text(
+                      'Profile',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 // User Profile Section
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFFFFECB3), Colors.grey[800]!, Colors.grey[900]!],
+                      colors: [
+                        const Color(0xFFFFECB3),
+                        Colors.grey[800]!,
+                        Colors.grey[900]!
+                      ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -59,11 +74,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 40,
                           child: Icon(Icons.person),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 25,
                         ),
                         Column(
@@ -71,14 +86,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Text(
                               userName,
-                              style: TextStyle(
-                                  color: Colors.white, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
-                            Text(userEmail, style: TextStyle(color: Colors.white)),
-                            SizedBox(
+                            Text(userEmail,
+                                style: const TextStyle(color: Colors.white)),
+                            const SizedBox(
                               height: 5,
                             ),
                             Container(
@@ -88,9 +105,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 color: Colors.red,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Text("Edit",
-                                  style:
-                                      TextStyle(fontSize: 15, color: Colors.white)),
+                              child: const Text("Edit",
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.white)),
                             ),
                           ],
                         )
@@ -98,7 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 tileContainer(
@@ -137,21 +154,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     iconPath: "term.png",
                     title: "Term & Conditions",
                     subtitle: "T&C for use of platform"),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     customButton(
-                      iconPath: "logout.png",
-                      title: "Logout",
-                      color: Colors.red[200]!,
-                      callback: () async{
-                        FirebaseAuth.instance.signOut();
-                        Navigator.pop(context);
-                      }
-                    ),
+                        iconPath: "logout.png",
+                        title: "Logout",
+                        color: Colors.red[200]!,
+                        callback: () async {
+                          FirebaseAuth.instance.signOut();
+                          Navigator.pop(context);
+                        }),
                     customButton(
                       iconPath: "help.png",
                       title: "Customer Care",
@@ -176,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     required String subtitle,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
       child: Column(
         children: [
           Row(
@@ -186,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 scale: 17,
                 color: Colors.white,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 25,
               ),
               Column(
@@ -194,7 +210,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold,color: Colors.white),
+                    style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                   Text(
                     subtitle,
@@ -204,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               )
             ],
           ),
-          Divider()
+          const Divider()
         ],
       ),
     );
@@ -224,7 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           borderRadius: BorderRadius.circular(12),
           color: color,
         ),
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: Row(
           children: [
             Image.asset(
@@ -232,10 +251,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               scale: 20,
               color: Colors.black,
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),

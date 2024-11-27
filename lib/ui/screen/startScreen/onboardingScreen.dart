@@ -6,18 +6,19 @@ import 'package:lottie/lottie.dart';
 final List<OnBoard> demoData = [
   OnBoard(
     image: 'assets/lottie/onboard1.json',
-    title: 'Welcome to Friendly Credit App',
-    description: 'Credit pay your friends, colleagues',
+    title: 'Welcome to Task Management App',
+    description: 'Create and Arrange your Todos',
   ),
   OnBoard(
     image: 'assets/lottie/onboard2.json',
-    title: 'Perfect Pair for Everyone',
-    description: 'Payment Received',
+    title: 'Perfect for Every Board',
+    description: 'Create boards and lists',
   ),
   OnBoard(
     image: 'assets/lottie/onboard3.json',
-    title: 'Find all New Favourites',
-    description: "Set Reminders and receive all payments, Generate EMI's and Share to others to Earn!",
+    title: 'Drag and Drop Features',
+    description:
+        "Drag tasks from one list to another!",
   ),
 ];
 
@@ -65,9 +66,9 @@ class _Onboarding1State extends State<Onboarding1> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black87,
-                    Colors.black54,
-                    Colors.grey[600]!,
+                    Colors.white54,
+                    Colors.white60,
+                    Colors.white70,
                   ],
                 ),
               ),
@@ -78,25 +79,33 @@ class _Onboarding1State extends State<Onboarding1> {
                   children: [
                     Image.asset(
                       "assets/images/Credixo.png",
-                      scale: 10,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: TextButton(
-                        onPressed: () async{
+                        onPressed: () async {
                           if (_isLastPage) {
                             await userService.setOnboardingCompleted(true);
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>  const Authpage())); // Navigate to home or next screen
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const Authpage())); // Navigate to home or next screen
                           } else {
                             setState(() {
-                              _pageIndex = demoData.length - 1; // Jump to last page
+                              _pageIndex =
+                                  demoData.length - 1; // Jump to last page
                               _pageController.animateToPage(_pageIndex,
-                                  duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeIn);
                             });
                           }
                         },
-                        child: Text(_isLastPage ? "SIGN UP" : "SKIP",style: TextStyle(color: Color( 0xFFFFD700)),),
+                        child: Text(
+                          _isLastPage ? "SIGN UP" : "SKIP",
+                          style: const TextStyle(color: Color(0xFFFFD700)),
+                        ),
                       ),
                     ),
                   ],
@@ -122,7 +131,7 @@ class _Onboarding1State extends State<Onboarding1> {
                       children: [
                         ...List.generate(
                           demoData.length,
-                              (index) => Padding(
+                          (index) => Padding(
                             padding: const EdgeInsets.only(right: 4),
                             child: DotIndicator(
                               isActive: index == _pageIndex,
@@ -135,30 +144,42 @@ class _Onboarding1State extends State<Onboarding1> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color( 0xFFFFE280),
-                    foregroundColor: Colors.grey[800],// Text color
-                    minimumSize: Size(MediaQuery.of(context).size.width * 0.95, 40), // Button width and height
+                    backgroundColor: const Color(0xFFFFE280),
+                    foregroundColor: Colors.grey[800], // Text color
+                    minimumSize: Size(MediaQuery.of(context).size.width * 0.95,
+                        40), // Button width and height
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      borderRadius:
+                          BorderRadius.circular(12), // Rounded corners
                     ),
                     elevation: 5,
                   ),
                   onPressed: () async {
                     await userService.setOnboardingCompleted(true);
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Authpage())); // Navigate to home or next screen
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const Authpage())); // Navigate to home or next screen
                   },
-                  child: Text("START CREDIT"),
+                  child: const Text("START MANAGING"),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already have an account?",style: TextStyle(color: Colors.white)),
+                    const Text("Already have an account?",
+                        style: TextStyle(color: Colors.white)),
                     TextButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         await userService.setOnboardingCompleted(true);
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Authpage())); // Navigate to home or next screen
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const Authpage())); // Navigate to home or next screen
                       },
-                      child: const Text("Sign In",style: TextStyle(color: Color( 0xFFFFD700))),
+                      child: const Text("Sign In",
+                          style: TextStyle(color: Color(0xFFFFD700))),
                     ),
                   ],
                 ),
